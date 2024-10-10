@@ -73,15 +73,25 @@ export default function QueryProcessor(query: string): string {
     return `${difference}`;
   }
 
-  // const primesRegex = /which of the following numbers are primes:\s*([\d,?\s*]+)/i;
-  // const matchPrimes = query.match(primesRegex);
-  // if (matchPrimes) {
-  //   const numbers = matchPrimes[1]
-  //     .split(',')
-  //     .map(num => parseInt(num.trim(), 10));
+  const primesRegex = /which of the following numbers are primes:\s*([\d,?\s*]+)/i;
+  const matchPrimes = query.match(primesRegex);
+  if (matchPrimes) {
+    const numbers = matchPrimes[1]
+      .split(',')
+      .map(num => parseInt(num.trim(), 10));
 
-  //   const isPrime = (num: number): boolean => {
-  //   }
+      const isPrime = (num: number): boolean => {
+        if (num <= 1) return false;
+        for (let i = 2; i <= Math.sqrt(num); i++) {
+          if (num % i === 0) return false;
+        }
+        return true;
+      };
+  
+      const primes = numbers.filter(isPrime);
+      return `${primes}`;
+    }
+        
 
   return "";
 }
