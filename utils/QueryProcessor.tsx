@@ -121,5 +121,15 @@ export default function QueryProcessor(query: string): string {
       return `${result}`;
     }  
     
-  return "";
+    const complexMathRegex2 = /(\d+)\s+plus\s+(\d+)\s+multiplied by\s+(\d+)/i;
+    const matchComplexMath2 = query.match(complexMathRegex2);
+    if (matchComplexMath2) {
+      const num1 = parseInt(matchComplexMath2[1], 10);
+      const num2 = parseInt(matchComplexMath2[2], 10);
+      const num3 = parseInt(matchComplexMath2[3], 10);
+      const result = num1 + num2 * num3;
+      return `${result}`;
+    }  
+
+    return "";
 }
