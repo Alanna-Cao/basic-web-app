@@ -54,12 +54,13 @@ export default function QueryProcessor(query: string): string {
       .split(',')
       .map(num => parseInt(num.trim(), 10));
 
-    const isPerfectSixthPower = (num: number): boolean => {
-      const sixthRoot = Math.round(Math.pow(num, 1 / 6));
-      return Math.pow(sixthRoot, 6) === num;
+    const isSquareAndCube = (num: number): boolean => {
+      const sqrt = Math.sqrt(num);
+      const cbrt = Math.cbrt(num);
+      return Number.isInteger(sqrt) && Number.isInteger(cbrt);
     };
 
-    const results = numbers.filter(isPerfectSixthPower);
+    const results = numbers.filter(isSquareAndCube);
     return results.length > 0
       ? `The number(s) that is both a square and a cube: ${results.join(', ')}`
       : "None of the numbers is both a square and a cube.";
