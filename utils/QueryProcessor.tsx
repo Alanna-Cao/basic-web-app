@@ -28,6 +28,15 @@ export default function QueryProcessor(query: string): string {
     return `${sum}`;
   }
 
+  const addRegex = /(\d+)\s+plus\s+(\d+)(?:\s+plus\s+(\d+))*/i;
+  const matchAdd = query.match(addRegex);
+  if (matchAdd) {
+    const numbers = matchAdd.slice(1).map(num => parseInt(num || "0", 10)); // Extract and convert numbers
+    const sum = numbers.reduce((acc, num) => acc + num, 0); // Sum the numbers
+    return `${sum}`;
+  }
+
+
   const largestRegex = /which of the following numbers is the largest:\s*([\d,?\s*]+)/i;
   const matchLargest = query.match(largestRegex);
   if (matchLargest) {
@@ -91,7 +100,15 @@ export default function QueryProcessor(query: string): string {
       const primes = numbers.filter(isPrime);
       return `${primes}`;
     }
-        
+  
+    const powerRegex = /(\d+)\s+to the power of\s+(\d+)/i;
+    const matchPower = query.match(powerRegex);
+    if (matchPower) {
+      const base = parseInt(matchPower[1], 10);
+      const exponent = parseInt(matchPower[2], 10);
+      const result = Math.pow(base, exponent);
+      return `${result}`;
+    }
 
   return "";
 }
