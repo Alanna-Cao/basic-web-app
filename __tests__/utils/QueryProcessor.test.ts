@@ -24,5 +24,5 @@ describe("QueryProcessor", () => {
         expect(response).toBe((
             "My Andrew ID is alannac"
         ));
-    })
+    });
 });
