@@ -19,21 +19,20 @@ export default function QueryProcessor(query: string): string {
     )
   }
 
-  const plusRegex = /(\d+)\s+plus\s+(\d+)/i;
-  const match = query.match(plusRegex);
-  if (match) {
-    const num1 = parseInt(match[1], 10);
-    const num2 = parseInt(match[2], 10);
-    const sum = num1 + num2;
-    return `${sum}`;
-  }
+  // const plusRegex = /(\d+)\s+plus\s+(\d+)/i;
+  // const match = query.match(plusRegex);
+  // if (match) {
+  //   const num1 = parseInt(match[1], 10);
+  //   const num2 = parseInt(match[2], 10);
+  //   const sum = num1 + num2;
+  //   return `${sum}`;
+  // }
 
-  const addRegex = /(\d+)(?:\s+plus\s+(\d+))+/gi;
+  const addRegex = /(\d+)(?:\s+plus\s+(\d+))+/gi; // Match multiple "plus"
   const matchAdd = query.match(addRegex);
-  
   if (matchAdd) {
     const numbers = query.split(/\s+plus\s+/).map(num => parseInt(num.trim(), 10));
-
+    
     const sum = numbers.reduce((acc, num) => acc + num, 0);
     return `${sum}`;
   }
@@ -112,5 +111,15 @@ export default function QueryProcessor(query: string): string {
       return `${result}`;
     }
 
+    const complexMathRegex = /(\d+)\s+multiplied by\s+(\d+)\s+plus\s+(\d+)/i;
+    const matchComplexMath = query.match(complexMathRegex);
+    if (matchComplexMath) {
+      const num1 = parseInt(matchComplexMath[1], 10);
+      const num2 = parseInt(matchComplexMath[2], 10);
+      const num3 = parseInt(matchComplexMath[3], 10);
+      const result = num1 * num2 + num3;
+      return `${result}`;
+    }  
+    
   return "";
 }
