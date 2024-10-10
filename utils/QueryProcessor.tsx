@@ -29,5 +29,15 @@ export default function QueryProcessor(query: string): string {
     // return `${num1} plus ${num2} equals ${sum}`;
   }
 
+  const largestRegex = /which of the following numbers is the largest:\s*([\d,?\s*]+)/i;
+  const matchLargest = query.match(largestRegex);
+  if (matchLargest) {
+    const numbers = matchLargest[1]
+      .split(',')
+      .map(num => parseInt(num.trim(), 10));
+    const largest = Math.max(...numbers);
+    return `${largest}`;
+  }
+
   return "";
 }
