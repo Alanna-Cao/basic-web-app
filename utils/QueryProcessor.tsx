@@ -33,7 +33,11 @@ export default function QueryProcessor(query: string): string {
   if (matchAdd) {
     const numbers = query.split(/\s+plus\s+/).map(num => parseInt(num.trim(), 10));
     
-    const sum = numbers.reduce((acc, num) => acc + num, 0);
+    let sum = 0;
+    for (let i = 0; i < numbers.length; i++) {
+      sum += numbers[i];
+    }
+
     return `${sum}`;
   }
 
