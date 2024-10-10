@@ -26,7 +26,6 @@ export default function QueryProcessor(query: string): string {
     const num2 = parseInt(match[2], 10);
     const sum = num1 + num2;
     return `${sum}`;
-    // return `${num1} plus ${num2} equals ${sum}`;
   }
 
   const largestRegex = /which of the following numbers is the largest:\s*([\d,?\s*]+)/i;
@@ -37,6 +36,33 @@ export default function QueryProcessor(query: string): string {
       .map(num => parseInt(num.trim(), 10));
     const largest = Math.max(...numbers);
     return `${largest}`;
+  }
+
+  const multiplyRegex = /(\d+)\s+multiplied by\s+(\d+)/i;
+  const matchMult = query.match(multiplyRegex);
+  if (matchMult) {
+    const num1 = parseInt(matchMult[1], 10);
+    const num2 = parseInt(matchMult[2], 10);
+    const product = num1 * num2;
+    return `${product}`;
+  }
+
+  const squareCubeRegex = /which of the following numbers is both a square and a cube:\s*([\d,?\s*]+)/i;
+  const matchSquareCube = query.match(squareCubeRegex);
+  if (matchSquareCube) {
+    const numbers = matchSquareCube[1]
+      .split(',')
+      .map(num => parseInt(num.trim(), 10));
+
+    const isPerfectSixthPower = (num: number): boolean => {
+      const sixthRoot = Math.round(Math.pow(num, 1 / 6));
+      return Math.pow(sixthRoot, 6) === num;
+    };
+
+    const results = numbers.filter(isPerfectSixthPower);
+    return results.length > 0
+      ? `The number(s) that is both a square and a cube: ${results.join(', ')}`
+      : "None of the numbers is both a square and a cube.";
   }
 
   return "";
