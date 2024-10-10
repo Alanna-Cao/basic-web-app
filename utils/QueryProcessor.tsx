@@ -28,11 +28,13 @@ export default function QueryProcessor(query: string): string {
     return `${sum}`;
   }
 
-  const addRegex = /(\d+)\s+plus\s+(\d+)(?:\s+plus\s+(\d+))*/i;
+  const addRegex = /(\d+)(?:\s+plus\s+(\d+))+/gi;
   const matchAdd = query.match(addRegex);
+  
   if (matchAdd) {
-    const numbers = matchAdd.slice(1).map(num => parseInt(num || "0", 10)); // Extract and convert numbers
-    const sum = numbers.reduce((acc, num) => acc + num, 0); // Sum the numbers
+    const numbers = query.split(/\s+plus\s+/).map(num => parseInt(num.trim(), 10));
+
+    const sum = numbers.reduce((acc, num) => acc + num, 0);
     return `${sum}`;
   }
 
