@@ -61,10 +61,27 @@ export default function QueryProcessor(query: string): string {
     };
 
     const results = numbers.filter(isSquareAndCube);
-    return results.length > 0
-      ? `The number(s) that is both a square and a cube: ${results.join(', ')}`
-      : "None of the numbers is both a square and a cube.";
+    return `${results}`;
   }
+
+  const minusRegex = /(\d+)\s+minus\s+(\d+)/i;
+  const matchMinus = query.match(minusRegex);
+  if (matchMinus) {
+    const num1 = parseInt(matchMinus[1], 10);
+    const num2 = parseInt(matchMinus[2], 10);
+    const difference = num1 - num2;
+    return `${difference}`;
+  }
+
+  // const primesRegex = /which of the following numbers are primes:\s*([\d,?\s*]+)/i;
+  // const matchPrimes = query.match(primesRegex);
+  // if (matchPrimes) {
+  //   const numbers = matchPrimes[1]
+  //     .split(',')
+  //     .map(num => parseInt(num.trim(), 10));
+
+  //   const isPrime = (num: number): boolean => {
+  //   }
 
   return "";
 }
